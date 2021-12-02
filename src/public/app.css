@@ -1,0 +1,12 @@
+body {
+    background: cornsilk;
+    color: #522828;
+}
+
+article {
+    max-width: 600px;
+}
+
+article + article {
+    margin-top: 20px;
+}

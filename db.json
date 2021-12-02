@@ -1,0 +1,17 @@
+{
+	"posts": [
+		{
+			"title": "My Cool Post",
+			"author": "Adrian Korzan"
+		},
+		{
+			"title": "Another Cool Post",
+			"author": "Adrian Korzan"
+		}
+	],
+	"profile": {
+		"first_name": "Adrian",
+		"last_name": "Korzan",
+		"email": "adrian.korzan@gmail.com"
+	}
+}

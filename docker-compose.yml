@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - mysql
+      - php
+  mysql:
+    image: mariadb:10.5
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - ./mysql:/var/lib/mysql
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    volumes:
+      - ./src:/var/www/html
+  composer:
+    build:
+      context: .
+      dockerfile: composer.dockerfile
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    # docker-compose build composer 
+    # docker-compose run --rm composer create-project laravel/laravel . (przykładowe użycie composera)
+    # docker-compose run --rm composer install . (przykładowe użycie composera)
+  npm:
+    image: node:current-alpine
+    volumes:
+      - ./src:/var/www/html
+    entrypoint: ["npm"]
+    working_dir: /var/www/html
+    # przykład użycia
+    # docker-compose run --rm nmp install
+  artisan:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - mysql
+    entrypoint: ["php", "/var/www/html/artisan"]
+    # przykład użycia
+    # docker-compose run --rm artisan migrate
