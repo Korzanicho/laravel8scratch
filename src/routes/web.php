@@ -14,17 +14,33 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('posts');
+
+    return view('posts', [
+        'posts' => \App\Models\Post::all()
+    ]);
 });
 
 Route::get('posts/{post}', function ($slug) {
-    $path = __DIR__ . "/../resources/posts/{$slug}.html";
 
-    // if (! file_exists($path)) dd('file not exist');
-    if (! file_exists($path)) abort(404);
-
+    $post = \App\Models\Post::find($slug);
 
     return view('post', [
-        'post' => file_get_contents($path)
+        'post' => $post
     ]);
-});
+
+//    $path = __DIR__ . "/../resources/posts/{$slug}.html";
+    //    ddd($path);
+
+    // if (! file_exists($path)) dd('file not exist');
+    // if (! file_exists($path)) abort(404);
+//    if (! file_exists($path)) return redirect('/');
+//
+//    $post = cache()->remember("posts.{$slug}", now()->addMinute(20), function() use ($path) {
+//        var_dump('nie idzie z cachu');
+//        return file_get_contents($path);
+//    });
+//
+//    return view('post', ['post' => file_get_contents($path)]);
+
+ })->where('post', '[A-z_\-]+');
+//})->whereAlpha('post');

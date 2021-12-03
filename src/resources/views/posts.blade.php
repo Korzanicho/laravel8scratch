@@ -9,44 +9,11 @@
         <link rel="stylesheet" href="./app.css">
     </head>
     <body class="antialiased">
-        <h1>Hello world</h1>
-
+        <?php foreach ($posts as $post) : ?>
         <article>
-            <header>
-                <a href="/post">
-                    Article 1
-                </a>
-            </header>
-
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic rem commodi quae placeat ea, dicta adipisci dignissimos distinctio, iure voluptas facere asperiores magnam fuga dolor officiis voluptatum quia maiores a.
-            </p>
+            <?= $post ?>
         </article>
-
-        <article>
-            <header>
-                <a href="/post">
-                    Article 2
-                </a>
-            </header>
-
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic rem commodi quae placeat ea, dicta adipisci dignissimos distinctio, iure voluptas facere asperiores magnam fuga dolor officiis voluptatum quia maiores a.
-            </p>
-        </article>
-
-        <article>
-            <header>
-                <a href="/post">
-                    Article 2
-                </a>
-            </header>
-
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic rem commodi quae placeat ea, dicta adipisci dignissimos distinctio, iure voluptas facere asperiores magnam fuga dolor officiis voluptatum quia maiores a.
-            </p>
-        </article>
-
+        <?php endforeach; ?>
         <!-- <script src="./app.js"></script> -->
     </body>
 </html>
