@@ -4,27 +4,69 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
+use phpDocumentor\Reflection\Types\Collection;
 
 class Post
 {
-    public static function find($slug)
+    public $title;
+
+    public $slug;
+
+    public $excerpt;
+
+    public $date;
+
+    public $body;
+
+    /**
+     * Post constructor.
+     * @param $title
+     * @param $excerpt
+     * @param $date
+     * @param $body
+     */
+    public function __construct($title, $slug, $excerpt, $date, $body)
     {
-        $path = resource_path("posts/{$slug}.html");
-
-        if (! file_exists($path)) throw new ModelNotFoundException();
-
-        $post = cache()->remember("posts.{$slug}", now()->addMinute(20), function() use ($path) {
-            return file_get_contents($path);
-        });
-
-        return view('post', ['post' => file_get_contents($path)]);
+        $this->title = $title;
+        $this->slug = $slug;
+        $this->excerpt = $excerpt;
+        $this->date = $date;
+        $this->body = $body;
     }
 
-    public static function all(): array {
-        $files = File::files(resource_path("posts/"));
+    public static function find($slug)
+    {
+        return static::all()->firstWhere('slug', $slug);
+    }
 
-        return array_map(function($file) {
-            return $file->getContents();
-        }, $files);
+    public static function findOrFail($slug)
+    {
+        $post = static::find('slug', $slug);
+
+        if (! $post) {
+            throw new ModelNotFoundException();
+        }
+
+        return $post;
+    }
+
+    public static function all(): \Illuminate\Support\Collection {
+        return cache()->rememberForever('posts.all', function() {
+            return collect(\Illuminate\Support\Facades\File::files(resource_path("posts")))
+                ->map(function ($file) {
+                    return \Spatie\YamlFrontMatter\YamlFrontMatter::parseFile($file);
+                })
+                ->map(function ($document) {
+
+                    return new \App\Models\Post(
+                        $document->title,
+                        $document->slug,
+                        $document->excerpt,
+                        $document->date,
+                        $document->body()
+                    );
+                })
+                ->sortByDesc('date');
+        });
     }
 }

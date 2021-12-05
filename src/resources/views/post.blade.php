@@ -1,22 +1,12 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layout')
 
-        <title>Laravel</title>
+@section('content')
+    <h1>Hello world</h1>
 
-        <link rel="stylesheet" href="./app.css">
-    </head>
-    <body class="antialiased">
-        <h1>Hello world</h1>
+    <article>
+        <h2>{{ $post->title }}</h2>
+        <div>{!! $post->body !!}</div>
+    </article>
 
-        <article>
-            <?= $post ?>
-        </article>
-
-				<a href="/">Go back</a>
-
-        <!-- <script src="./app.js"></script> -->
-    </body>
-</html>
+    <a href="/">Go back</a>
+@endsection

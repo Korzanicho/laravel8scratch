@@ -54,8 +54,6 @@ services:
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
-    depends_on:
-      - mysql
     entrypoint: ["php", "/var/www/html/artisan"]
     # przykład użycia
     # docker-compose run --rm artisan migrate

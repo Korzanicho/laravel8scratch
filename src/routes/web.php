@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,33 +15,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
+    $posts = Post::all();
     return view('posts', [
-        'posts' => \App\Models\Post::all()
+        'posts' => $posts
     ]);
 });
 
 Route::get('posts/{post}', function ($slug) {
 
-    $post = \App\Models\Post::find($slug);
+    $post = Post::findOrFail($slug);
 
     return view('post', [
         'post' => $post
     ]);
 
-//    $path = __DIR__ . "/../resources/posts/{$slug}.html";
-    //    ddd($path);
-
-    // if (! file_exists($path)) dd('file not exist');
-    // if (! file_exists($path)) abort(404);
-//    if (! file_exists($path)) return redirect('/');
-//
-//    $post = cache()->remember("posts.{$slug}", now()->addMinute(20), function() use ($path) {
-//        var_dump('nie idzie z cachu');
-//        return file_get_contents($path);
-//    });
-//
-//    return view('post', ['post' => file_get_contents($path)]);
-
  })->where('post', '[A-z_\-]+');
-//})->whereAlpha('post');
