@@ -35,6 +35,7 @@ services:
       dockerfile: composer.dockerfile
     volumes:
       - ./src:/var/www/html
+    entrypoint: ["composer"]
     working_dir: /var/www/html
     # docker-compose build composer 
     # docker-compose run --rm composer create-project laravel/laravel . (przykładowe użycie composera)

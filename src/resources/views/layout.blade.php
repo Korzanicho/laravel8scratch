@@ -6,10 +6,12 @@
 
     <title>Laravel</title>
 
-    <link rel="stylesheet" href="./app.css">
+    <link rel="stylesheet" href="http://localhost/app.css">
 </head>
 <body class="antialiased">
-    @yield('content')
+    <main>
+        @yield('content')
+    </main>
 <!-- <script src="./app.js"></script> -->
 </body>
 </html>
